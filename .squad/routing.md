@@ -6,11 +6,12 @@ How to decide who handles what.
 
 | Work Type | Route To | Examples |
 |-----------|----------|----------|
-| {domain 1} | {Name} | {example tasks} |
-| {domain 2} | {Name} | {example tasks} |
-| {domain 3} | {Name} | {example tasks} |
-| Code review | {Name} | Review PRs, check quality, suggest improvements |
-| Testing | {Name} | Write tests, find edge cases, verify fixes |
+| Scope, architecture, cross-cutting trade-offs | Ripley | Resolve spec gaps, review APIs, set implementation order |
+| Frontend UI and UX | Lambert | Forms, tables, user journeys, explanatory UI |
+| Backend API and persistence | Parker | Express routes, repositories, services, retention flows |
+| Financial formulas and business rules | Bishop | Decimal formulas, explainability, ranking, break-even, affordability |
+| Code review | Ripley | Review PRs, check quality, suggest improvements |
+| Testing | Hicks | Write tests, find edge cases, verify fixes |
 | Scope & priorities | {Name} | What to build next, trade-offs, decisions |
 | Session logging | Scribe | Automatic — never needs routing |
 
@@ -18,8 +19,12 @@ How to decide who handles what.
 
 | Label | Action | Who |
 |-------|--------|-----|
-| `squad` | Triage: analyze issue, assign `squad:{member}` label | Lead |
-| `squad:{name}` | Pick up issue and complete the work | Named member |
+| `squad` | Triage: analyze issue, assign `squad:{member}` label | Ripley |
+| `squad:ripley` | Pick up issue and complete the work | Ripley |
+| `squad:lambert` | Pick up issue and complete the work | Lambert |
+| `squad:parker` | Pick up issue and complete the work | Parker |
+| `squad:bishop` | Pick up issue and complete the work | Bishop |
+| `squad:hicks` | Pick up issue and complete the work | Hicks |
 
 ### How Issue Assignment Works
 
