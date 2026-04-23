@@ -268,6 +268,316 @@ Extract lessons learned from all work on mortgage comparator MVP and improve Squ
 
 ---
 
+## Spec Kit & Governance Tooling
+
+### Spec Kit Extension Adoption Strategy (Ripley)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley
+
+**Decision:**
+Adopt Spec Kit extensions in three tiers:
+
+1. **Tier 1 — Primary:** `spec-kit-ci-guard` (advisory spec drift gate)
+   - Pilot phase: advisory mode, no hard merge blocking
+   - Maturation: escalate to strict mode for money/privacy/contract features
+   - Rationale: Closes gap between Squad manual review and automated merge-gate
+
+2. **Tier 2 — Secondary:** `spec-kit-red-team` (adversarial review for high-risk features)
+   - Deploy after ci-guard pilot succeeds
+   - Trigger on features touching: money calculations, privacy, contracts, retention
+
+3. **Hold/Deferred:** `spec-kit-bugfix`, `agent-assign`, `conduct`, `maqa`, `brownfield`, `memory-loader`
+   - Either lower priority or redundant with Squad model
+
+**Rationale:**
+Battle-ias already has strong constitution and Squad operating model. Extensions should close real gaps (spec drift detection, adversarial review for financial logic) without adding parallel coordinators or duplicating Squad authority.
+
+**Consequences:**
+- Official tooling (copilot + git) remains default, verified path
+- Community tooling clearly labeled as optional, vendored locally
+- CLI pinning removes environment brittleness
+- Governance boundary explicit: verified vs. optional
+
+---
+
+### Spec Kit CLI Wrapper & Official Integration (Parker)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Parker
+
+**Decision:**
+- Pin official `github/spec-kit` CLI to version `v0.8.0`
+- Create reproducible wrapper: `corepack pnpm speckit -- <cmd>`
+- Route all Spec Kit commands through wrapper (humans and Squad use same entrypoint)
+- Preflight entrypoint: `corepack pnpm speckit:setup`
+
+**Rationale:**
+Avoids silent breakage when developer's global `specify` binary differs from repo requirements. Single entrypoint keeps environment predictable for both interactive and agent-driven workflows.
+
+**Consequences:**
+- Humans and Squad share identical Spec Kit invocation path
+- Repo stops depending on caller's global Python tool state
+- Future upgrades managed via repo-pinned version, not developer initiative
+
+---
+
+### CI Guard Community Pilot & Vendoring (Parker)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Parker
+
+**Decision:**
+Adopt `spec-kit-ci-guard` as a **local, advisory-only pilot**:
+
+- Keep official `github/spec-kit` CLI wrapper as verified default
+- Vendor patched local copy under `.specify/community/ci-guard-pilot/`
+  - Reason: Upstream `v1.0.0` manifest exists but fails validation against pinned CLI (namespace conflict on `speckit.ci.*`)
+  - Patch: minimal compatibility layer; maintains update path to upstream
+- Install pilot via separate entrypoint: `corepack pnpm speckit:ci:setup` (not official `speckit:setup`)
+- Configure `.speckit-ci.yml` in **advisory mode** (`fail_*: false`)
+  - Findings guide review without blocking merges
+  - Preserve integrity boundary: official vs. community distinction clear
+
+**Rationale:**
+Ripley's recommendation directionally sound, but upstream incompatibility required local wrapper to keep pilot reproducible and transparent about unverified (community) status. Local piloting lets team validate before committing to hard merge gates.
+
+**Consequences:**
+- Humans get explicit setup/status commands
+- Squad gets wired agent prompts for `speckit.ci-guard.check`, `speckit.ci-guard.drift`, `speckit.ci-guard.report`
+- Community tooling stays clearly labeled and optional
+- Advisory mode prevents false blocking; recommendations inform human judgment
+
+---
+
+## UI Redesign & Design System
+
+### Redesign Contract Lock: Mortgage Comparator Decision Desk (Ripley)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley
+
+**Decision:**
+Before visual redesign work begins, lock this product as a **decision desk for mortgage switching analysis**, with five immutable semantic rules:
+
+1. **Ancla de Decisión (Decision Anchor)**
+   - Total real cost is primary signal, not monthly installment
+   - Recommendation exposes: net savings, break-even point, switching costs in one view
+
+2. **Jerarquía de Contenido (Content Hierarchy)**
+   - Capture flow: retention/access → horizon → current mortgage → offer base → bonus variant (optional) → switch costs → household profile
+   - Results: always three panels: comparison → recommendation → affordability
+
+3. **Semántica de Escenarios (Scenario Semantics)**
+   - Always compare `current` vs. `alternative_without_bonus`
+   - `alternative_with_bonus` only if explicitly offered
+   - Affordability only after valid comparison and always on recommendation's target scenario
+
+4. **Verdad Visible (Visible Truth)**
+   - Cannot hide: switch costs, linked products, assumptions, data gaps, fallback mode, ownership/retention, formula traceability
+   - May improve aesthetics and responsiveness, cannot degrade to secondary/hidden
+
+5. **Forma de Experiencia (Experience Form)**
+   - Optimized for deliberate, evidence-dense reading
+   - Mobile stacking allowed; evidence not behind tabs, collapsed accordions, or mandatory tooltips
+
+**Rationale:**
+Context is economic decision with high cost sensitivity, bonus-bait risks, privacy concerns. If redesign prioritizes aesthetics over total-cost ranking, bonus clarity, or affordability prerequisite, product stops telling truth even if backend stays correct.
+
+**Consequences:**
+- Redesign spec must describe this target explicitly
+- Design, UX, copy cannot treat retention/fallback as support details
+- Any proposal hiding comparison, creating implicit scenario, or decoupling affordability must be rejected before implementation
+- If artifact contradicts this lock, lock prevails; resolve inconsistency in spec before fan-out
+
+---
+
+### Redesign Validation Strategy (Hicks)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Hicks
+
+**Decision:**
+Before visual redesign work, establish locked validation matrix covering 10 critical dimensions:
+
+1. Scenario Count Logic (exactly 2 when user omits bonus, no silent fake)
+2. Ranking by Total Real Cost (not installment)
+3. Bonus Clarity (linked products visible, explanation present)
+4. Data Quality Honesty (conditional estimate / missing data / assumptions visible)
+5. Affordability Eligibility (only after valid comparison, target scenario locked)
+6. Fallback Clarity (source badge + notice visible when local/unavailable)
+7. Retention Visibility (session expiry/purge dates accessible)
+8. Cost Breakdown Structure (timing labeled: monthly vs. one-off)
+9. Delta Accuracy (absolute and percentage match API, no rounding surprises)
+10. Accessibility Baseline (semantic HTML, color not sole indicator, 44x44 touch targets)
+
+**Test Coverage Before Redesign:**
+- Domain: 12 tests, all green (rules locked)
+- API: 17 tests, all green (contract stable)
+- Web Service: 4 tests, all green (mock + fallback)
+- Component Unit: 0 → 23 tests (new: ScenarioComparisonTable, RecommendationPanel, AffordabilityPanel, DataQualityBanner)
+- E2E: 3 existing + 2 new (high switch costs, no break-even scenarios)
+
+**Validation Commands (All Must Pass Before Redesign Visual Work):**
+```bash
+corepack pnpm build
+corepack pnpm --filter @batalla-ias/domain test
+corepack pnpm --filter @batalla-ias/api test
+cd apps/web && corepack pnpm test
+cd apps/web && corepack pnpm exec playwright test mortgage-comparison.spec.ts
+```
+
+**Fragile Areas Flagged:**
+1. Installment-first visual hierarchy (risk: bonus installment highlighted before total cost)
+2. Data quality banner collapsed (risk: false certainty when conditional_estimate not visible)
+3. Affordability shown before comparison ready
+4. Fallback seamless/unlabeled (risk: user doesn't know backend unavailable)
+5. Session expiry invisible (risk: data purged without user awareness)
+6. Empty bonus column silently added
+
+**Recommendation for Redesign Team:**
+- Add 6 component unit tests before visual changes (tests green on current impl as baseline)
+- Redesign visual/CSS; tests stay green through changes
+- All existing E2E tests must remain green
+- Add visual regression snapshots before/after
+- Run Lighthouse accessibility audit (≥85 score)
+
+**Consequences:**
+- Redesign cannot ship until all baseline validation commands pass
+- Test suite becomes regression gate; no feature loss during redesign
+- Fragile areas become explicit review checkpoints before merge
+- Component tests lock contract; UI changes verify against spec, not guesswork
+
+---
+
+### Design Direction: Editorial Financial Desk (Lambert)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Lambert
+
+**Decision:**
+Codify design system for mortgage comparator as **Editorial Financial Desk** — intersection of:
+- Financial precision (Coinbase/Stripe institutional trust)
+- Editorial explanation (WIRED information density)
+- Developer honesty (Vercel/Linear transparency)
+
+**Visual System:**
+- **Brand Posture:** Analyst's desk at financial publication (Bloomberg Terminal meets WIRED meets broker spreadsheet)
+- **Color Foundation:** Deep editorial black (`#0b1014`) + warm financial gold accent (`#cf9e53`) + semantic colors (success green, warning yellow, danger red)
+- **Typography:** Serif display (H1-H3 only), sans body, monospace for data/currency
+- **Component Standards:** Cards with inner gold glow, gradient buttons, sticky table headers, status chips, stage badges
+- **Spacing & Layout:** 1440px max-width, 2-column on desktop (1.35fr main + 0.65fr sidebar), 1-column mobile
+- **Responsiveness:** Breakpoints at 1180px (desktop), 860px (tablet), mobile stacks all grids with reduced padding
+- **Accessibility:** WCAG 2.1 AA, 4.5:1 contrast, keyboard navigation, screen reader patterns, Spanish localization
+
+**What NOT to Copy:**
+- ❌ Purple gradients (too tech), terminal aesthetics, monochrome extreme from developer tools
+- ❌ Trading UI (green/red candlesticks), real-time tickers, gradient overload from fintech
+- ❌ Full-bleed imagery, article pagination, paywall patterns from editorial
+- ❌ Playful illustrations, gamification, social features from consumer apps
+- ❌ Carousels, hidden tooltips for critical info, fake progress, optimistic UI that lies
+
+**Design Artifact Structure:**
+- `design.md` — Color palette, typography rules, component styling, layout principles, depth/elevation, responsiveness, accessibility
+- `ux-study.md` — User context, information architecture, form flow, result presentation, interaction patterns, copy guidelines, edge cases
+
+**Consequences:**
+- Design system codified and traceable for future iterations
+- UX patterns documented for consistency (no drift toward Stripe/Linear aesthetics)
+- Accessibility standards explicit and testable
+- Anti-patterns called out to prevent regression
+- Current palette kept (minor refinements only); existing component structure reusable
+
+---
+
+### Editorial Redesign Delivery Strategy (Lambert)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Lambert
+
+**Decision:**
+Ship Editorial Financial Desk redesign as **evidence-first layout** with:
+
+1. **Compact Editorial Briefing Header** (no marketing hero)
+2. **Comparison as Dominant Surface**
+   - Desktop: full table with sticky header, best-scenario badge on first row, cost breakdown nested
+   - Mobile: card stack keeping ranking + cost breakdown visible without hidden tabs/accordions
+3. **Dedicated Supporting Metadata Rail** (retention/ownership, stage provenance, fallback info)
+4. **Shared Analysis UI Primitives** (`analysis-ui.tsx`)
+   - Consistent evidence formatting across comparison → recommendation → affordability blocks
+   - Reusable for future modules to maintain hierarchy
+
+**Rationale:**
+Preserve comparison → recommendation → affordability ordering while keeping fallback, quality, retention visible on all breakpoints. Table primary on desktop, mobile card stack avoids hiding critical costs or ranking.
+
+**Consequences:**
+- Comparison table coexists with mobile-first evidence stack
+- Supporting metadata explicit and visible across breakpoints (no secondary navigation required)
+- Future changes should reuse analysis UI primitives to maintain consistency
+- Responsive design passes Lighthouse accessibility ≥ 85
+
+---
+
+## Landing Page Architecture
+
+### Landing Page Information Architecture & Integration (Lambert)
+
+**Status:** Proposed for Team Review  
+**Date:** 2026-04-24  
+**Author:** Lambert
+
+**Decision:**
+Build public landing page for batalla-ias homepage with hybrid information architecture:
+
+**Proposed Landing IA Structure:**
+
+1. **Hero** — "¿Tu hipoteca actual es la mejor oferta?" + evidence positioning
+2. **Trust Scaffold** — 3 cards: "100+ mortgages analyzed", "Ranked by real cost", "Data stays in session"
+3. **Headline & Lede** — "What You'll Discover" (positioning block)
+4. **Breadth Signal** — 3-4 visual cards: Scenario Comparison, Savings & Break-Even, Affordability Status, [opt] Transparency
+5. **Explanation Block** — Editorial 2-column: "Why Switches Matter" + "What Gets Compared" (list)
+6. **Example/Stat Block** — "Recent Analysis" or case study data + "How It Works"
+7. **Form Entry** — Progressive disclosure: "Start Your Analysis" with current form
+8. **Secondary Content** — Expandable: "How We Calculate", "Privacy Model", "Technical Details"
+9. **Footer** — Navigation, trust stamp
+
+**Philosophy:**
+- Top (Hero → Breadth): Trust, positioning
+- Middle (Explanation → Examples): Education, social proof, risk transparency
+- Bottom (Form → Footer): Conversion, advanced paths, credibility
+
+**What It Solves:**
+- **Gap 1:** No acquisition path (currently tool-only for aware visitors)
+- **Gap 2:** No breadth signal (appears to be single feature, not ecosystem)
+- **Gap 3:** No trust scaffolding (different philosophy from hipoteca-2 reference landing)
+- **Gap 4:** No progressive entry (form too immediate for cold traffic)
+
+**Dependencies & Constraints:**
+- **Safe Now:** Landing IA document, React skeleton, copy outline, content strategy, mobile breakpoints
+- **Wait For Redesign-002:** Hero color scheme, card token refinement, status badge styling, example data styling
+- **Blocks Implementation:** `compare` endpoint (501), `affordability` endpoint (501), design token finalization
+
+**Consequences:**
+- battaglia-ias becomes acquirable homepage, not tool-only
+- Preserves explanation-first DNA while borrowing hipoteca-2's trust architecture
+- IA finalized now, styling deferred until redesign-002 brand locked
+- Forms landing structure now; unblocks Parker/Hicks on backend endpoints
+
+**Next Steps:**
+1. **Sergio:** Approve landing IA structure + trust narrative choice + example data strategy
+2. **Lambert:** Create `landing-ia.md` spec + component skeleton + copy outline
+3. **Coordinator:** Schedule redesign-002 brand review + unblock compare/affordability endpoints
+4. **Team:** Implement landing after redesign-002 tokens available + Parker endpoints live
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
