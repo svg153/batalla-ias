@@ -125,3 +125,19 @@ Locked the redesign as a **decision desk for mortgage switching analysis** with 
 **Consequence:** If any artifact contradicts this lock, lock prevails; escalate to Sergio before implementation.
 
 **Outcome:** ✅ Decision merged to `.squad/decisions.md` (Redesign Contract Lock section)
+
+## 2026-04-24 — Branch Integration & Workflow Execution
+
+**Session:** scribe-orchestration (2026-04-23T23:08:06Z)
+
+**Outcome:** Branch integration strategy from this session was materialized and validated:
+- **Branch 001** (mortgage-comparator-mvp): Committed as d0a3528, merged to main as f82bda4 ✓
+- **Branch 002** (mortgage-redesign): Committed as 658d855, merged to main as 4fb25c7 ✓
+- **Branch 003** (landing-acquisition): Plan-only commit 620224e, intentionally NOT merged ✓
+- Residual working tree mixed changes preserved for review
+
+**Decision Recorded:** Branch Integration Order decision merged to canonical `.squad/decisions.md`
+
+**Validation Notes:** Isolated worktree validation encountered missing `tsc` tool (non-blocking); all merge operations succeeded.
+
+**Impact:** MVP and redesign now on main; landing acquisition planning remains isolated pending team review.

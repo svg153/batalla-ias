@@ -616,3 +616,34 @@ Finish gate ensures quality barriers are resolved before production integration.
 - Keep history focused on work, decisions focused on direction
 - Earned skills are canonical patterns available to all agents
 - Coordinator manages routing and skill attachment to spawn prompts
+
+## Integration & Workflow
+
+### Branch Integration Order (Ripley)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley
+
+**Decision:**
+1. **Integrate branch 001 (MVP comparator) to main first.**
+2. **Integrate branch 002 (redesign) second, rebased/merged onto main after 001.**
+3. **Branch 003 remains plan-only; no merge to main.**
+
+**Context:**
+- Local working tree contains artifacts spanning specs 001/002/003 plus core code.
+- Branch heads: 001 and 002 both at f14ee0f; 003 at 0202897; main at 94718e8.
+- User instruction: integrate 001, then 002, while 003 remains plan-only.
+
+**Rationale:**
+Sequential integration ensures that core MVP code lands cleanly, then redesign-specific deltas build on top. Prevents merge conflicts and preserves commit lineage.
+
+**Implications:**
+- 001 and 002 share the same commit today; 002 has no divergence yet; avoid redundant merges.
+- Any shared core code should land with 001, then 002 should carry redesign-specific deltas only.
+- Branch 003 remains isolated for future planning cycle.
+
+**Consequences:**
+- MVP comparator available to main first; redesign follows
+- Clear separation of concerns: core (001) → styling (002) → planning (003)
+- Audit trail shows intentional workflow, not chaotic rebasing
