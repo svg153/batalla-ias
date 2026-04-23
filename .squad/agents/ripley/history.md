@@ -141,3 +141,13 @@ Locked the redesign as a **decision desk for mortgage switching analysis** with 
 **Validation Notes:** Isolated worktree validation encountered missing `tsc` tool (non-blocking); all merge operations succeeded.
 
 **Impact:** MVP and redesign now on main; landing acquisition planning remains isolated pending team review.
+
+## 2026-04-23 — Safe Rebase of Branch 003 onto main
+
+**Session:** ripley-safe-rebase
+
+- Rebased `003-landing-acquisition-flow` from pre-rebase tip `899b4e2` onto `main` `4fb25c7` without modifying `main`
+- Created safety ref `refs/backup/ripley/003-safe-rebase-20260423T231604Z` before history rewrite
+- Preserved local tracked + untracked work via stash before rebasing; restored visible dirty state after rebase
+- Verified an important integration nuance: several paths that were untracked on 003 were already tracked on `main`, so stash restore reported `already exists, no checkout`; comparison showed the rebased worktree already matched the stashed content, so no product work was lost
+- Kept the primary safety stash in place until final verification remains easy to audit

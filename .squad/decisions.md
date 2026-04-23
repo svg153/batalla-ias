@@ -647,3 +647,30 @@ Sequential integration ensures that core MVP code lands cleanly, then redesign-s
 - MVP comparator available to main first; redesign follows
 - Clear separation of concerns: core (001) → styling (002) → planning (003)
 - Audit trail shows intentional workflow, not chaotic rebasing
+
+---
+
+## Rebase & Integration Safety
+
+### Safe Rebase Protocol for Dirty Integration Branches (Ripley)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley
+
+**Decision:**
+When rebasing a dirty feature branch onto `main`, preserve truth in this order:
+
+1. Create an explicit backup ref at the pre-rebase branch tip.
+2. Stash local tracked + untracked work before rebasing.
+3. Rebase the branch onto `main` without touching `main`.
+4. Restore local work after the rebase and verify whether any stash paths were naturally absorbed by the new base.
+5. Keep the safety stash until verification is complete if Git reports overlapping untracked paths.
+
+**Rationale:**
+A branch can carry local files that are still untracked there but already tracked on `main`. After rebase, stash restore may report `already exists, no checkout`; that is not automatic data loss if the rebased branch now contains the same content. Verification must compare the preserved stash state against the post-rebase worktree before dropping safety backups.
+
+**Consequences:**
+- Dirty branch rebases stay reversible.
+- `main` stays untouched.
+- Overlap between local untracked files and incoming tracked files is treated as a verification step, not as a reason to discard work.
