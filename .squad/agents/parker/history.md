@@ -39,3 +39,32 @@ Frontend now live-integrated against real Parker API. Fallback strategy honors c
 - Retention semantics explicit in API response: no fake durability claims
 - Frontend fallback ensures UX resilience when backend services incomplete
 
+## 2026-04-23 — Squad Skill Extraction
+
+**Session:** parker-squad-skills (2026-04-23)
+
+### Deliverables
+✓ Added reusable skill for opaque session-cookie ownership semantics
+✓ Added reusable skill for static monorepo-to-Vercel deployment with honest fallback behavior
+✓ Left a coordinator proposal in `.squad/decisions/inbox/parker-squad-skills.md`
+
+### Validation
+- Docs-only change; no runtime code paths changed
+- Reviewed new skill files and proposal for pathing and reuse scope
+
+### Context for Next Session
+- Reuse the session-cookie skill before changing anonymous access, retention, or delete semantics
+- Reuse the Vercel skill before changing static deploy boundaries or preview fallback behavior
+- Routing/charter files remain untouched; proposal is parked in decisions inbox
+
+## Skills Earned: Session Ownership & Vercel Deployment
+
+**Date:** 2026-04-23  
+**Crystallized into:**
+- `.squad/skills/session-cookie-ownership/SKILL.md`
+- `.squad/skills/static-monorepo-vercel/SKILL.md`
+
+**Where Applied:** API access control, retention mechanics, Vercel deployment  
+**Reusable Pattern:** Possession-based API ownership without accounts; honest static deployment with explicit fallback
+
+**Impact:** Future backend/deployment work automatically loads these skills for API-access, retention, and fallback tasks

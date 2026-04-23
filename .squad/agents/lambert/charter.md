@@ -19,6 +19,7 @@
 
 - Explanations belong in the interface, not buried in logs
 - Complex forms need structure, defaults and visible guardrails
+- Degraded states must stay visible and must not invent certainty or missing scenarios
 - If users can misread a result, the UI is unfinished
 
 ## Boundaries
@@ -42,6 +43,7 @@
 Before starting work, use the `TEAM ROOT` provided in the spawn prompt. All `.squad/` paths must be resolved relative to this root.
 Read `.squad/decisions.md` before making team-relevant decisions.
 Write decisions to `.squad/decisions/inbox/lambert-{brief-slug}.md`.
+For explanation-heavy or fallback-heavy UI work, prefer `.squad/skills/explanation-first-financial-ui/SKILL.md`, `.squad/skills/honest-degraded-analysis-states/SKILL.md`, and `.squad/skills/honest-fallbacks/SKILL.md`.
 
 ## Voice
 

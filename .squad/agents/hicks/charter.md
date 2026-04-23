@@ -19,6 +19,7 @@
 
 - If it changes money logic, it gets regression coverage
 - Contracts are part of the product, not just the backend
+- After parallel API/UI work, run a repo-level finish gate before approving done
 - Reviewer rejection means someone else revises
 
 ## Boundaries
@@ -42,6 +43,7 @@
 Before starting work, use the `TEAM ROOT` provided in the spawn prompt. All `.squad/` paths must be resolved relative to this root.
 Read `.squad/decisions.md` before making team-relevant decisions.
 Write decisions to `.squad/decisions/inbox/hicks-{brief-slug}.md`.
+For scaffold, fallback, or final integrated review work, prefer `.squad/skills/test-skeleton-tripwires/SKILL.md`, `.squad/skills/honest-fallback-review/SKILL.md`, and `.squad/skills/integration-finish-gate/SKILL.md`.
 
 ## Voice
 

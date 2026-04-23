@@ -157,8 +157,121 @@ Transparent about fallbacks and user choice. No hidden scenarios. Retention and 
 
 ---
 
+## Squad Operating Model & Routing
+
+### Earned Hicks Skills: Test Scaffolding & Honest Fallback Review
+
+**Status:** Approved (routing)  
+**Date:** 2026-04-23  
+**Author:** Hicks
+
+**Decision:**
+Route future quality work through these established patterns:
+- `.squad/skills/test-skeleton-tripwires/SKILL.md` — Lock cross-layer test contracts before implementation
+- `.squad/skills/honest-fallback-review/SKILL.md` — Validate fallback paths stay visible and honest
+
+**Where Used:**
+- `packages/domain/tests/regression/comparison-scenarios.test.ts`
+- `apps/api/tests/integration/compare-analysis.test.ts`
+- `apps/web/tests/e2e/mortgage-comparison.spec.ts`
+
+**Next Action:**
+Coordinator loads these skills for regression scaffolding, staged backend rollouts, and E2E hardening tasks.
+
+---
+
+### Earned Parker Skills: Session Ownership & Vercel Monorepo Deployment
+
+**Status:** Approved (routing)  
+**Date:** 2026-04-23  
+**Author:** Parker
+
+**Decision:**
+Route backend and deployment work through these patterns:
+- `.squad/skills/session-cookie-ownership/SKILL.md` — Possession-based API access without account infrastructure
+- `.squad/skills/static-monorepo-vercel/SKILL.md` — Honest Vercel deployment from pnpm monorepo with explicit fallback
+
+**Context:**
+Both patterns apply beyond this repo. Covers access semantics, retention/access on wire, and static-web deployment with honest fallback signaling.
+
+**Next Action:**
+Coordinator loads these for API-access, retention, fallback, or Vercel-boundary tasks.
+
+---
+
+### Earned Lambert Skills: Explanation-First UI & Honest Degradation
+
+**Status:** Approved (routing)  
+**Date:** 2026-04-23  
+**Author:** Lambert
+
+**Decision:**
+Route frontend work through these patterns:
+- `.squad/skills/explanation-first-financial-ui/SKILL.md` — Financial outputs prioritize explanation and transparency over aesthetics
+- `.squad/skills/honest-degraded-analysis-states/SKILL.md` — Frontend handles partial backend delivery and degraded modes truthfully
+
+**Why Reusable:**
+Same problems recur: explanation-heavy outputs, partial backend delivery, retention/access semantics, optional scenario handling.
+
+**Next Action:**
+Coordinator loads these for frontend work on financial outputs, fallbacks, recommendation UX, or retention/access handling.
+
+---
+
+### Earned Ripley Skills & Coordinator Improvements
+
+**Status:** Approved (routing & coordination)  
+**Date:** 2026-04-23  
+**Author:** Ripley
+
+**Decision:**
+Integrate three improvements into coordinator/routing workflow:
+
+1. **Contract-Lock Preflight** (`.squad/skills/contract-lock/SKILL.md`)
+   - For cross-cutting features with privacy, retention, or recommendation semantics: Ripley locks the contract before parallel implementation fan-out
+   - Lock captures: access/ownership, retention TTL + purge semantics, canonical target for downstream calculations, uncertainty vs. business-output split, traceability requirements
+
+2. **Honest Fallbacks** (`.squad/skills/honest-fallbacks/SKILL.md`)
+   - Degradation patterns must stay truthful about provenance, durability, and confidence
+
+3. **Integration Finish Gate** (`.squad/skills/integration-finish-gate/SKILL.md`)
+   - After backend + frontend work converge: spawn Hicks for repo-level finish gate
+   - Hicks validates root build/typecheck/test, E2E, and checks for stale contract assumptions in tests and UI copy
+
+**Rationale:**
+Session was effective because team aligned early on non-negotiable contracts and stayed honest about degraded modes. Main gap was endgame convergence: validation should be explicit routing step, not discovered late.
+
+**Consequences:**
+- No mid-implementation ambiguity; contracts lock before fan-out
+- Repo-level validation automated; stale mocks/contracts caught early
+- UI fallback behavior stays truthful about backend state
+
+---
+
+## User Directive
+
+### Lessons Learned & Squad Self-Improvement
+
+**Status:** Captured  
+**Date:** 2026-04-23  
+**Captured By:** Coordinator (Copilot)  
+**Original:** User Sergio Valverde, 2026-04-23T23:20:51+02:00
+
+**Directive:**
+Extract lessons learned from all work on mortgage comparator MVP and improve Squad with new skills, instructions, memory, and agent adjustments for better future iterations.
+
+**Evidence:**
+- 9 new skills extracted and registered in `.squad/skills/`
+- Coordinator updated routing, agent charters, identity/wisdom, and identity/now
+- Operating patterns codified for future iterations
+- Session effectiveness attributed to early contract alignment and honest degradation modes
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
 - Document architectural decisions here
 - Keep history focused on work, decisions focused on direction
+- Earned skills are canonical patterns available to all agents
+- Coordinator manages routing and skill attachment to spawn prompts

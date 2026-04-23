@@ -19,6 +19,7 @@
 
 - Keep route handlers thin and domain calls deterministic
 - Access control and retention are product features, not afterthoughts
+- If durability or provenance is partial, expose that explicitly on the wire
 - Stable contracts beat clever controllers
 
 ## Boundaries
@@ -42,6 +43,7 @@
 Before starting work, use the `TEAM ROOT` provided in the spawn prompt. All `.squad/` paths must be resolved relative to this root.
 Read `.squad/decisions.md` before making team-relevant decisions.
 Write decisions to `.squad/decisions/inbox/parker-{brief-slug}.md`.
+For access, retention, or static deployment work, prefer `.squad/skills/session-cookie-ownership/SKILL.md`, `.squad/skills/static-monorepo-vercel/SKILL.md`, and `.squad/skills/honest-fallbacks/SKILL.md`.
 
 ## Voice
 

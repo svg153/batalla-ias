@@ -32,3 +32,28 @@ Lambert's UI fallback strategy aligns: local comparison/affordability only when 
 ### Sync with Hicks
 Data quality flags now first-class: `dataQualityStatus` visible in recommendation panel.
 
+## 2026-04-23 — Reusable frontend lessons extracted
+
+**Session:** lambert-squad-skills
+
+### What was distilled
+- Explanation-first financial UI is now captured as a reusable Squad skill instead of staying trapped in one page implementation.
+- Honest degraded states are now encoded as a reusable skill: API-first, visible local preview only when warranted, and no fake success on backend gaps.
+- Optional scenario handling is explicit: bonus variants only exist when declared and materially different, otherwise the UI stays at two scenarios and says why.
+
+### Assets created
+- `.squad/skills/explanation-first-financial-ui/SKILL.md`
+- `.squad/skills/honest-degraded-analysis-states/SKILL.md`
+- `.squad/decisions/inbox/lambert-squad-skills.md`
+
+## Skills Earned: Explanation-First UI & Honest Degradation
+
+**Date:** 2026-04-23  
+**Crystallized into:**
+- `.squad/skills/explanation-first-financial-ui/SKILL.md`
+- `.squad/skills/honest-degraded-analysis-states/SKILL.md`
+
+**Where Applied:** Frontend architecture, fallback UI states, affordability display, access/retention copy  
+**Reusable Pattern:** Financial outputs prioritize explanation and transparency; partial backend delivery handled truthfully with visible confidence
+
+**Impact:** Future frontend work on financial outputs, fallbacks, recommendation UX automatically loads these skills

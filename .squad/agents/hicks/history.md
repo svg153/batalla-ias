@@ -26,3 +26,15 @@
 - Parker: Backend compare endpoint and affordability orchestration
 - Lambert: Frontend compare form and affordability display
 - Ripley: Session cookie and retention mechanics
+
+## Skills Earned: Test Scaffolding & Honest Fallback Review
+
+**Date:** 2026-04-23  
+**Crystallized into:**
+- `.squad/skills/test-skeleton-tripwires/SKILL.md`
+- `.squad/skills/honest-fallback-review/SKILL.md`
+
+**Where Applied:** All test suites, contract validation, E2E framework  
+**Reusable Pattern:** Cross-layer test contracts lock before implementation drifts; fallback paths stay visible and scoped
+
+**Impact:** Future quality work across regression scaffolding, staged rollouts, and E2E hardening automatically loads these skills
