@@ -53,6 +53,26 @@ Closes critical spec gaps across access ownership, retention mechanics, affordab
 
 ## Domain & Rules
 
+### Test Scaffolding & Quality Baseline (Hicks)
+
+**Status:** Approved  
+**Date:** 2026-04-23
+
+**Decision:**
+- Test skeletons created for contract, integration, and E2E; marked `skip` when dependent on unimplemented features
+- Shared fixtures in `packages/domain/tests/fixtures/` and `apps/api/tests/helpers/` encode financial scenarios: no-bonus, conditional estimates, retention, ranking-by-total-cost
+- Domain public surface (`packages/domain/src/index.ts`) corrected to expose formulas and rules, enabling suite bootstrap
+
+**Rationale:**
+Tests encode expected contract before implementation, preventing regressions when features land. Shared fixtures eliminate payload duplication. Public surface correction unblocks test execution and feedback loop.
+
+**Consequences:**
+- Test suite is regression-safe; all builds and existing tests pass
+- E2E framework ready for activation when compare endpoint and affordability orchestration land
+- Financial scenarios documented via fixtures; next implementer has reference payload set
+
+---
+
 ### Rule Provenance Centralization (Bishop)
 
 **Status:** Approved  
