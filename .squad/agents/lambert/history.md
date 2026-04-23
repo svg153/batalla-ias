@@ -14,15 +14,21 @@
 
 ## 2026-04-23 — UI Integration Synchronized
 
-**Session:** lambert-ui-integration (merged by Scribe 2026-04-23T20:51:06Z)
+**Session:** lambert-ui-integration (merged by Scribe 2026-04-23T20:55:13Z)
 
 ### Frontend State
 ✓ API integration honest: live attempt first, fallback to local only when backend unavailable  
 ✓ Bonus variant optional: user controls scenario count  
 ✓ Recommendation, affordability, retention, access status now first-class UI states  
 ✓ Visible source badges, warnings, backend retention copy instead of generic success  
+✓ No-bonus rendering: graceful fallback when alternative scenario unavailable
+✓ Conditional affordability: "pending", "estimated", "approved" states visible
+✓ Enhanced error/loading/empty UX: robust across all failure modes
 
 ### Sync with Parker
 Parker's API orchestration now enforces cookie ownership and recommendation-driven affordability.  
 Lambert's UI fallback strategy aligns: local comparison/affordability only when backend unavailable.
+
+### Sync with Hicks
+Data quality flags now first-class: `dataQualityStatus` visible in recommendation panel.
 
