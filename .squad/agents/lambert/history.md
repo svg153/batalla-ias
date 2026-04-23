@@ -202,3 +202,23 @@ Data quality flags now first-class: `dataQualityStatus` visible in recommendatio
 - The problem is not visual design; it's codifying patterns and preventing future drift
 - Spanish-speaking mortgage users need editorial authority, not fintech playfulness
 - Design system should document what's working, not chase external trends
+
+## 2026-04-24 — Landing UX & Mortgage Redesign Finish Gate
+
+**Session:** mortgage-redesign-finish-gate-v2 (2026-04-24T22:26:01Z)
+
+### Landing UX Analysis Completed
+- Comparative analysis of hipoteca-2 and batalla-ias landing patterns
+- Documented landing IA structure for acquisition layer (hero → trust scaffold → breadth → explanation → examples → form → footer)
+- Proposed trust signals and progressive entry strategy preserved batalla-ias transparency DNA
+
+### Mortgage Redesign Finish Gate v2
+- Hicks approved Editorial Financial Desk redesign after Ripley's revision
+- **Status:** Production-ready
+- **Key achievements:**
+  - Editorial shell with evidence blocks, metadata rail, retention semantics
+  - Component tests complete
+  - E2E coverage for `local_preview` honesty and mobile accessibility
+  - All repo-level validation passing
+
+**Next:** Backend API integration and landing page implementation

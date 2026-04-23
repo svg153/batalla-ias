@@ -9,6 +9,11 @@
 
 - Tests are mandatory before implementation in each story phase according to Spec Kit tasks.
 - Financial invariants, privacy and explainability must be covered, not just happy paths.
+- Redesign finish gate still needs visible E2E proof for `local_preview` fallback; service-level tests in `apps/web/src/services/analysis-api.test.ts` are not enough on their own.
+- The redesigned mortgage UI is concentrated in `apps/web/src/pages/mortgage-analysis-page.tsx`, the comparison/recommendation/affordability blocks, `apps/web/src/components/supporting-metadata.tsx`, and `apps/web/src/styles.css`.
+- Accessibility review must check heading flow across result sections; `DataQualityBanner` sits between the results briefing and the comparison block, so section heading levels cannot drift.
+- Ripley's redesign revision cleared the finish gate once `apps/web/src/components/data-quality-banner.tsx` aligned to the results-flow h2/h3 hierarchy and `apps/web/tests/e2e/mortgage-comparison.spec.ts` proved both `local_preview` honesty and mobile-visible result headings.
+- Current redesign finish-gate command set is `corepack pnpm typecheck`, `corepack pnpm test`, `corepack pnpm build`, and `corepack pnpm --filter @batalla-ias/web test:e2e`.
 
 - Primera ola de scaffolding lista: contratos/integración/E2E de compare quedan descritos con fixtures compartidos y tests skip hasta que exista compare real, cookie analysis_session y affordabilidad orquestada.
 - Comandos validados en esta rama: corepack pnpm build; corepack pnpm --filter @batalla-ias/domain test; corepack pnpm --filter @batalla-ias/api typecheck; corepack pnpm --filter @batalla-ias/api test; cd apps/web && corepack pnpm exec playwright test --list.
@@ -87,3 +92,22 @@
 - Component tests lock contract; UI changes verify against spec
 - Fragile areas become explicit review checkpoints
 - Hicks finish-gate now includes redesign-specific validation gates
+
+## 2026-04-24 — Mortgage Redesign Finish Gate v2 Approval
+
+**Session:** mortgage-redesign-finish-gate-v2 (2026-04-24T22:26:01Z)
+
+### Two-Phase Review Completed
+
+**v1 (Blockers):**
+- ✗ `data-quality-banner.tsx` broke heading hierarchy (h2 gap in results flow)
+- ✗ `mortgage-comparison.spec.ts` missing `local_preview` visibility and mobile heading coverage
+
+**v2 (Validation):**
+- ✓ Heading hierarchy restored; no reading-order breaks
+- ✓ E2E coverage complete; `local_preview` honesty and mobile accessibility verified
+- ✓ All repo-level validation passing
+
+**Decision:** Mortgage redesign APPROVED and READY FOR PRODUCTION INTEGRATION
+
+**Outcome:** ✅ Decision merged to `.squad/decisions.md` (Mortgage Redesign Finish Gate section)

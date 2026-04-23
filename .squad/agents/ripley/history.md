@@ -14,6 +14,8 @@
 - Rediseños de esta web deben tratarla como una mesa de análisis para decidir subrogación/cambio, no como landing comercial ni simulador decorativo.
 - El lock de rediseño preserva cuatro verdades de producto: ranking por coste total real, escenario bonificado solo si existe explícitamente, asequibilidad solo tras comparación válida sobre el escenario objetivo, y visibilidad de retención/acceso/fallbacks/calidad.
 - Rutas clave para cualquier redesign review: `apps/web/src/pages/mortgage-analysis-page.tsx`, `apps/web/src/features/mortgage-analysis/analysis-form.tsx`, `apps/web/src/features/mortgage-analysis/scenario-comparison-table.tsx`, `apps/web/src/styles.css`, `specs/001-mortgage-comparator-mvp/{spec,plan,research,data-model,quickstart}.md`.
+- El banner de calidad de datos debe usar jerarquía de heading alineada con el flujo de resultados (h2 para estado y h3 para subsecciones) en `apps/web/src/components/data-quality-banner.tsx`.
+- La cobertura E2E del redesign incluye fallback/local_preview visible y evidencia accesible en móvil en `apps/web/tests/e2e/mortgage-comparison.spec.ts`.
 
 ## 2026-04-23 — Frontend Retention Semantics Live
 
@@ -46,6 +48,19 @@ What Ripley codified for next time:
 - `.squad/skills/contract-lock/SKILL.md` — Non-negotiable contracts locked before fan-out
 - `.squad/skills/honest-fallbacks/SKILL.md` — Degradation truthfulness guaranteed
 - `.squad/skills/integration-finish-gate/SKILL.md` — Repo-level convergence validation
+
+## 2026-04-24 — Mortgage Redesign Revision & Finish Gate Approval
+
+**Session:** mortgage-redesign-finish-gate-v2 (2026-04-24T22:26:01Z)
+
+Revised Editorial Financial Desk redesign to resolve Hicks' finish gate v1 blockers:
+
+**Fixed:**
+✓ Heading hierarchy — `data-quality-banner.tsx` now uses h2 section title + h3 subsections, preserving results-flow reading order
+✓ E2E coverage — `mortgage-comparison.spec.ts` now verifies `local_preview` honesty and mobile result headings
+✓ Repo validation — All integration tests pass (typecheck, test, build, e2e)
+
+**Outcome:** Hicks approved redesign for production integration. Editorial Desk now ready to connect to backend APIs.
 
 **Coordinator Recommendations Approved:**
 1. Auto-route final validation to Hicks after backend+frontend convergence

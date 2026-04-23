@@ -578,6 +578,37 @@ Build public landing page for batalla-ias homepage with hybrid information archi
 
 ---
 
+### Mortgage Redesign Finish Gate (Hicks)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Hicks
+
+**Decision:**
+The mortgage redesign passes the finish gate. All quality blockers identified in v1 review have been resolved.
+
+**Evidence:**
+- **Heading Hierarchy:** `apps/web/src/components/data-quality-banner.tsx` now uses h2 section title with h3 subsections, preserving results-flow reading order (comparison → recommendation → affordability) without breaks.
+- **E2E Coverage:** `apps/web/tests/e2e/mortgage-comparison.spec.ts` now verifies:
+  - `local_preview` fallback visibility and honesty
+  - Mobile-accessible result headings
+  - Comparison table visibility on mobile
+- **Repo Validation:** All integration tests pass:
+  - `corepack pnpm typecheck`
+  - `corepack pnpm test`
+  - `corepack pnpm build`
+  - `corepack pnpm --filter @batalla-ias/web test:e2e`
+
+**Rationale:**
+Finish gate ensures quality barriers are resolved before production integration. Two-phase review (v1: blockers, v2: validation) provides confidence that redesign artifact is complete and safe to integrate.
+
+**Consequences:**
+- Editorial Financial Desk redesign ready for backend API integration
+- Frontend narrative tier is production-qualified
+- Next phase: connect to `analyse` endpoint and affordability orchestration
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
