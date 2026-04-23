@@ -1,4 +1,5 @@
-installed: []
+installed:
+- git
 settings:
   auto_execute_hooks: true
 hooks:
@@ -49,6 +50,13 @@ hooks:
     optional: true
     prompt: Commit outstanding changes before implementation?
     description: Auto-commit before implementation
+    condition: null
+  - extension: ci-guard
+    command: speckit.ci-guard.check
+    enabled: true
+    optional: true
+    prompt: Run advisory ci-guard checks before implementation?
+    description: Review spec completeness before implementation starts
     condition: null
   before_checklist:
   - extension: git
@@ -121,6 +129,13 @@ hooks:
     optional: true
     prompt: Commit implementation changes?
     description: Auto-commit after implementation
+    condition: null
+  - extension: ci-guard
+    command: speckit.ci-guard.drift
+    enabled: true
+    optional: true
+    prompt: Run advisory ci-guard drift review after implementation?
+    description: Review spec drift after implementation without blocking the workflow
     condition: null
   after_checklist:
   - extension: git

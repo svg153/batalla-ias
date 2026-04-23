@@ -6,20 +6,27 @@ How to decide who handles what.
 
 | Work Type | Route To | Examples |
 |-----------|----------|----------|
-| {domain 1} | {Name} | {example tasks} |
-| {domain 2} | {Name} | {example tasks} |
-| {domain 3} | {Name} | {example tasks} |
-| Code review | {Name} | Review PRs, check quality, suggest improvements |
-| Testing | {Name} | Write tests, find edge cases, verify fixes |
-| Scope & priorities | {Name} | What to build next, trade-offs, decisions |
+| Scope, architecture, cross-cutting trade-offs | Ripley | Resolve spec gaps, review APIs, set implementation order |
+| Cross-cutting contract lock | Ripley | Access/retention semantics, recommendation target, traceability before fan-out |
+| Frontend UI and UX | Lambert | Forms, tables, user journeys, explanatory UI |
+| Backend API and persistence | Parker | Express routes, repositories, services, retention flows |
+| Financial formulas and business rules | Bishop | Decimal formulas, explainability, ranking, break-even, affordability |
+| Integration finish gate | Hicks | Final repo-level validation after parallel API/UI work |
+| Code review | Ripley | Review PRs, check quality, suggest improvements |
+| Testing | Hicks | Write tests, find edge cases, verify fixes |
+| Scope & priorities | Ripley | What to build next, trade-offs, decisions |
 | Session logging | Scribe | Automatic — never needs routing |
 
 ## Issue Routing
 
 | Label | Action | Who |
 |-------|--------|-----|
-| `squad` | Triage: analyze issue, assign `squad:{member}` label | Lead |
-| `squad:{name}` | Pick up issue and complete the work | Named member |
+| `squad` | Triage: analyze issue, assign `squad:{member}` label | Ripley |
+| `squad:ripley` | Pick up issue and complete the work | Ripley |
+| `squad:lambert` | Pick up issue and complete the work | Lambert |
+| `squad:parker` | Pick up issue and complete the work | Parker |
+| `squad:bishop` | Pick up issue and complete the work | Bishop |
+| `squad:hicks` | Pick up issue and complete the work | Hicks |
 
 ### How Issue Assignment Works
 
@@ -37,3 +44,6 @@ How to decide who handles what.
 5. **"Team, ..." → fan-out.** Spawn all relevant agents in parallel as `mode: "background"`.
 6. **Anticipate downstream work.** If a feature is being built, spawn the tester to write test cases from requirements simultaneously.
 7. **Issue-labeled work** — when a `squad:{member}` label is applied to an issue, route to that member. The Lead handles all `squad` (base label) triage.
+8. **Contract-lock first for cross-cutting work.** If privacy, retention, explainability, recommendation semantics, or shared wire/UI meaning are in scope, route Ripley first and load `.squad/skills/contract-lock/SKILL.md` before broad fan-out.
+9. **Finish-gate last for integrated work.** If backend and frontend both touched the same feature, route Hicks for a repo-level validation pass and load `.squad/skills/integration-finish-gate/SKILL.md` before calling the work complete.
+10. **Load earned skills by concern.** Backend/session/deploy work should prefer `.squad/skills/session-cookie-ownership/SKILL.md`, `.squad/skills/static-monorepo-vercel/SKILL.md`, and `.squad/skills/honest-fallbacks/SKILL.md`; frontend explanation/fallback work should prefer `.squad/skills/explanation-first-financial-ui/SKILL.md`, `.squad/skills/honest-degraded-analysis-states/SKILL.md`, and `.squad/skills/honest-fallbacks/SKILL.md`; quality/review work should prefer `.squad/skills/test-skeleton-tripwires/SKILL.md` and `.squad/skills/honest-fallback-review/SKILL.md`.

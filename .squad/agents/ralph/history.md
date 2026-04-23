@@ -1,16 +1,14 @@
 # Project Context
 
+- **Owner:** Sergio Valverde
 - **Project:** batalla-ias
-- **Created:** 2026-04-23
+- **Stack:** TypeScript monorepo with React, Express, Decimal.js, PostgreSQL, Vitest, Playwright
+- **Created:** 2026-04-23T20:09:48Z
 
 ## Core Context
 
-Agent Ralph initialized and ready for work.
-
-## Recent Updates
-
-📌 Team initialized on 2026-04-23
+Ralph is active as work monitor for the mortgage comparator MVP.
 
 ## Learnings
 
-Initial setup complete.
+- No open GitHub issues are currently assigned to squad members.

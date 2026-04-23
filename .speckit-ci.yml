@@ -1,0 +1,52 @@
+# Advisory CI Guard pilot configuration for batalla-ias.
+# Community / unverified extension on purpose. Guidance only.
+version: "1.0"
+
+mode: advisory
+source:
+  extension: ci-guard
+  provenance: local-vendored-pilot
+  upstream_repository: https://github.com/Quratulain-bilal/spec-kit-ci-guard
+  upstream_commit: 856bce5924fbdbb519e5aa61f796bf8aca6f1f36
+
+gates:
+  artifacts:
+    required:
+      - spec.md
+      - plan.md
+    recommended:
+      - tasks.md
+      - .specify/memory/constitution.md
+    fail_on_missing_required: false
+    warn_on_missing_recommended: true
+
+  task_completion:
+    minimum_percentage: 80
+    fail_below_threshold: false
+    exclude_phases: []
+
+  drift_detection:
+    enabled: true
+    fail_on_drift: false
+    ignore_patterns:
+      - .github/agents/**
+      - .github/prompts/**
+
+  test_coverage:
+    require_test_files: true
+    minimum_requirement_coverage: 75
+    fail_below_threshold: false
+
+  spec_completeness:
+    require_requirements_section: true
+    require_success_criteria: true
+    require_user_scenarios: false
+
+reporting:
+  format: markdown
+  post_to_pr: false
+  include_badge: false
+
+branches:
+  base: main
+  protected: []

@@ -1,0 +1,32 @@
+{
+  "universe_usage_history": [
+    {
+      "assignment_id": "2026-04-23-batalla-ias-initial-cast",
+      "universe": "Alien",
+      "created_at": "2026-04-23T20:09:48Z",
+      "members": [
+        "Ripley",
+        "Lambert",
+        "Parker",
+        "Bishop",
+        "Hicks"
+      ]
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "2026-04-23-batalla-ias-initial-cast": {
+      "project": "batalla-ias",
+      "user": "Sergio Valverde",
+      "description": "Aplicación web fullstack de gestión, comparación y optimización de hipotecas.",
+      "members": {
+        "lead": "Ripley",
+        "frontend": "Lambert",
+        "backend": "Parker",
+        "data_rules": "Bishop",
+        "tester": "Hicks",
+        "scribe": "Scribe",
+        "ralph": "Ralph"
+      }
+    }
+  }
+}

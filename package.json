@@ -1,0 +1,21 @@
+{
+  "name": "batalla-ias",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "corepack pnpm --filter @batalla-ias/domain build && corepack pnpm --filter @batalla-ias/api build && corepack pnpm --filter @batalla-ias/web build",
+    "dev": "corepack pnpm --filter @batalla-ias/domain build && corepack pnpm --filter @batalla-ias/api dev",
+    "dev:api": "corepack pnpm --filter @batalla-ias/domain build && corepack pnpm --filter @batalla-ias/api dev",
+    "speckit": "bash .specify/scripts/bash/specify.sh",
+    "speckit:ci:setup": "bash .specify/scripts/bash/ensure-ci-guard-pilot.sh",
+    "speckit:ci:status": "bash .specify/scripts/bash/ensure-ci-guard-pilot.sh --status",
+    "speckit:check": "bash .specify/scripts/bash/specify.sh check",
+    "speckit:setup": "bash .specify/scripts/bash/ensure-spec-kit.sh",
+    "speckit:upgrade:copilot": "bash .specify/scripts/bash/ensure-spec-kit.sh --upgrade-copilot",
+    "test": "corepack pnpm --filter @batalla-ias/domain build && corepack pnpm --filter @batalla-ias/domain test && corepack pnpm --filter @batalla-ias/api test && corepack pnpm --filter @batalla-ias/web test",
+    "typecheck": "corepack pnpm --filter @batalla-ias/domain build && corepack pnpm --filter @batalla-ias/api typecheck && corepack pnpm --filter @batalla-ias/web check"
+  }
+}

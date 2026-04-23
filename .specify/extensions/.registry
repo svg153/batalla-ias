@@ -18,6 +18,24 @@
       },
       "registered_skills": [],
       "installed_at": "2026-04-23T15:01:21.721237+00:00"
+    },
+    "ci-guard": {
+      "version": "1.0.0",
+      "source": "local",
+      "manifest_hash": "sha256:c5caeef83f040938b19861725bbe4ed4467cea7455291a05d4d69ebd5b5b81b2",
+      "enabled": true,
+      "priority": 10,
+      "registered_commands": {
+        "copilot": [
+          "speckit.ci-guard.check",
+          "speckit.ci-guard.report",
+          "speckit.ci-guard.gate",
+          "speckit.ci-guard.drift",
+          "speckit.ci-guard.badge"
+        ]
+      },
+      "registered_skills": [],
+      "installed_at": "2026-04-23T22:08:55.230784+00:00"
     }
   }
 }
