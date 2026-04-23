@@ -114,6 +114,49 @@ Honest about infrastructure maturity. No pretense. Possession-based access clear
 
 ---
 
+### API Integration & Orchestration (Parker)
+
+**Status:** Approved  
+**Date:** 2026-04-23
+
+**Decision:**
+- Protect `GET/DELETE/compare/affordability` with the opaque `analysis_session` cookie; treat unknown/mismatched cookies as ownership misses (`404` after cookie presence, `401` when absent)
+- Keep `session_only` as 4-hour inactivity window with sliding `lastAccessedAt/expiresAt/purgeAfter` metadata; keep `save_analysis` on same 30-day/24-hour retention contract even with in-memory fallback
+- Orchestrate comparison in API by composing finished domain formulas/ranking primitives; calculate affordability only against active recommendation target scenario
+
+**Rationale:**
+API remains boring and explicit: ownership token-bound, retention honest about memory fallback, affordability cannot drift from shown recommendation.
+
+**Consequences:**
+- `compare` and `affordability` endpoints now orchestrate real domain scenarios
+- Recommendation-driven affordability: scoped only to active recommendation target
+- Cookie-based ownership on all data access endpoints
+- Retention semantics transparent even with in-memory fallback
+
+---
+
+## Frontend Integration (Lambert)
+
+### UI Integration & Honest API Consumption (Lambert)
+
+**Status:** Approved  
+**Date:** 2026-04-23
+
+**Decision:**
+- Frontend uses API honestly in stages: `POST /analyses` and `GET /analyses/{id}` attempted live first; comparison and affordability fall back locally only when backend unavailable/unimplemented
+- Offer form treats bonus variant as optional; if user does not declare bonus, UI submits only base offer and results stay at two scenarios
+- Recommendation, affordability, retention and access status surfaced as first-class UI states with visible source badges, warnings, backend retention copy instead of generic success language
+
+**Rationale:**
+Transparent about fallbacks and user choice. No hidden scenarios. Retention and affordability state always visible.
+
+**Consequences:**
+- Graceful degradation when backend unavailable
+- User controls scenario count: explicit bonus choice
+- State and confidence visible in UI; no surprises on backend wiring
+
+---
+
 ## Governance
 
 - All meaningful changes require team consensus
