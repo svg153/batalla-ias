@@ -31,7 +31,18 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Financial Accuracy Gate**: Identify every formula, rounding rule, source dataset and
+  derived metric affected by the feature. The plan MUST name where each rule is implemented
+  and how its accuracy will be regression-tested.
+- **Explainability Gate**: Describe how the feature will expose calculation steps, triggered
+  business rules, included costs and recommendation rationale to users and internal reviewers.
+- **Privacy & Security Gate**: List sensitive financial/family data handled by the feature,
+  required access controls, logging redaction needs and any data minimization decisions.
+- **Total Cost Reality Gate**: Confirm whether the feature includes all applicable mortgage
+  costs, bonuses, switching costs, affordability inputs and debt-ratio assumptions. Any
+  omitted cost factor MUST be justified explicitly.
+- **Business Rule Validation Gate**: Enumerate the business rules, thresholds and eligibility
+  criteria that change, plus the unit/contract/integration tests required to validate them.
 
 ## Project Structure
 

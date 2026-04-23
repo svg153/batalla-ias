@@ -1,0 +1,52 @@
+schema_version: "1.0"
+
+extension:
+  id: ci-guard
+  name: "CI Guard"
+  version: "1.0.0"
+  description: "Community Spec Kit compliance checks vendored locally for advisory repo use"
+  author: "Quratulain-bilal (local pilot patch by batalla-ias)"
+  repository: "https://github.com/Quratulain-bilal/spec-kit-ci-guard"
+  license: "MIT"
+
+requires:
+  speckit_version: ">=0.4.0"
+
+provides:
+  commands:
+    - name: speckit.ci-guard.check
+      file: commands/ci-guard.check.md
+      description: "Run advisory spec compliance checks for this repo"
+    - name: speckit.ci-guard.report
+      file: commands/ci-guard.report.md
+      description: "Generate an advisory spec traceability report"
+    - name: speckit.ci-guard.gate
+      file: commands/ci-guard.gate.md
+      description: "Update the repo's advisory .speckit-ci.yml configuration"
+    - name: speckit.ci-guard.drift
+      file: commands/ci-guard.drift.md
+      description: "Detect advisory spec-to-code drift"
+    - name: speckit.ci-guard.badge
+      file: commands/ci-guard.badge.md
+      description: "Generate optional advisory badge snippets"
+
+hooks:
+  before_implement:
+    command: speckit.ci-guard.check
+    optional: true
+    prompt: "Run advisory ci-guard checks before implementation?"
+    description: "Review spec completeness before implementation starts"
+  after_implement:
+    command: speckit.ci-guard.drift
+    optional: true
+    prompt: "Run advisory ci-guard drift review after implementation?"
+    description: "Review spec drift after implementation without blocking the workflow"
+
+tags:
+  - "ci-cd"
+  - "compliance"
+  - "governance"
+  - "quality-gate"
+  - "drift-detection"
+  - "community"
+  - "advisory"

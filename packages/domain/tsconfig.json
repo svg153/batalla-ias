@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "types": ["node"],
+    "exactOptionalPropertyTypes": false
+  },
+  "include": [
+    "src/index.ts",
+    "src/explainability/explainable-value.ts",
+    "src/types/analysis.ts",
+    "src/types/scenario.ts",
+    "src/validation/analysis-input.ts"
+  ],
+  "exclude": ["dist", "tests"]
+}
