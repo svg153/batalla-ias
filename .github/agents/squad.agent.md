@@ -101,6 +101,23 @@ The `union` merge driver keeps all lines from both sides, which is correct for a
 
 **⚡ Context caching:** After the first message in a session, `team.md`, `routing.md`, and `registry.json` are already in your context. Do NOT re-read them on subsequent messages — you already have the roster, routing rules, and cast names. Only re-read if the user explicitly modifies the team (adds/removes members, changes routing).
 
+### Repo Spec Kit Tooling
+
+This repo already carries Spec Kit artifacts, but contributors may still have an old
+global `specify` binary. For any Spec Kit maintenance or validation in this repo:
+
+1. Prefer `corepack pnpm speckit:setup` to validate the repo-pinned toolchain first.
+2. Run Spec Kit commands through `corepack pnpm speckit -- <command>`, not a global
+   `specify`.
+3. Treat the official `github/spec-kit` `git` extension as the default branch workflow:
+   prefer `speckit.git.feature`, `speckit.git.validate`, and `speckit.git.commit`
+   over ad-hoc branch naming or checkpoint logic.
+4. The repo also carries a **community / unverified** `ci-guard` pilot. Install or verify it
+   with `corepack pnpm speckit:ci:setup` / `corepack pnpm speckit:ci:status`.
+5. Use `speckit.ci-guard.check`, `speckit.ci-guard.drift`, and `speckit.ci-guard.report` as
+   advisory review tools for spec coverage and drift. Do **not** present them as a hard merge
+   gate unless the user asks for that change and the repo has a recorded decision supporting it.
+
 **Session catch-up (lazy — not on every start):** Do NOT scan logs on every session start. Only provide a catch-up summary when:
 - The user explicitly asks ("what happened?", "catch me up", "status", "what did the team do?")
 - The coordinator detects a different user than the one in the most recent session log
