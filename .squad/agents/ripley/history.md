@@ -151,3 +151,12 @@ Locked the redesign as a **decision desk for mortgage switching analysis** with 
 - Preserved local tracked + untracked work via stash before rebasing; restored visible dirty state after rebase
 - Verified an important integration nuance: several paths that were untracked on 003 were already tracked on `main`, so stash restore reported `already exists, no checkout`; comparison showed the rebased worktree already matched the stashed content, so no product work was lost
 - Kept the primary safety stash in place until final verification remains easy to audit
+
+## 2026-04-24 — Git State Cleanup Safety Pass
+
+**Session:** ripley-cleanup-git-state
+
+- Tightened `.gitignore` only around local generated artifacts actually polluting status: workspace `node_modules`, package `dist` outputs, Playwright `test-results`, Spec Kit `.cache` directories, and stray nested `packages/domain/package-lock.json`
+- Deep-inspected `stash@{0}` and confirmed both its tracked patch and all 7,280 files from its untracked snapshot already exist in the current worktree, so nothing should be restored now; the stash remains a safety backup, not pending work
+- Deleted merged local branches `001-mortgage-comparator-mvp` and `002-mortgage-redesign`; left `main` and active branch `003-landing-acquisition-flow` untouched
+- Resulting cleanup keeps meaningful untracked product files visible while removing noise from generated local artifacts

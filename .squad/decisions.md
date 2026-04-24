@@ -674,3 +674,33 @@ A branch can carry local files that are still untracked there but already tracke
 - Dirty branch rebases stay reversible.
 - `main` stays untouched.
 - Overlap between local untracked files and incoming tracked files is treated as a verification step, not as a reason to discard work.
+
+---
+
+### Git State Cleanup After Safe Rebase (Ripley)
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley  
+**Requested by:** Sergio Valverde
+
+**Decision:**
+1. Expand `.gitignore` only for locally generated artifacts currently polluting the worktree:
+   - workspace and package `node_modules/`
+   - package `dist/`
+   - `apps/web/test-results/`
+   - `.specify/extensions/.cache/`
+   - `.specify/integrations/.cache/`
+   - `packages/domain/package-lock.json`
+2. Do **not** apply `stash@{0}` now.
+3. Delete only local branches already merged into `main`; keep `main` and `003-landing-acquisition-flow`.
+
+**Rationale:**
+- The stash is a rebase safety artifact, not a pending integration queue.
+- Its tracked diff already matches the current worktree, and its untracked snapshot is already present locally after the rebase onto `main`.
+- Ignoring only generated artifacts reduces review noise without hiding source, spec, or prompt/agent files that may still need deliberate review.
+
+**Consequences:**
+- Current user work stays intact.
+- Future review can focus on meaningful untracked files instead of local build/install noise.
+- `stash@{0}` remains untouched as fallback checkpoint until Sergio is satisfied the branch state no longer needs it.
