@@ -160,3 +160,12 @@ Locked the redesign as a **decision desk for mortgage switching analysis** with 
 - Deep-inspected `stash@{0}` and confirmed both its tracked patch and all 7,280 files from its untracked snapshot already exist in the current worktree, so nothing should be restored now; the stash remains a safety backup, not pending work
 - Deleted merged local branches `001-mortgage-comparator-mvp` and `002-mortgage-redesign`; left `main` and active branch `003-landing-acquisition-flow` untouched
 - Resulting cleanup keeps meaningful untracked product files visible while removing noise from generated local artifacts
+
+## 2026-04-25 — Vercel Git Deploy Decision & 003 Merge to main
+
+**Session:** ripley-vercel-merge
+
+- Audited repo deployment surface and chose native Vercel Git integration over a GitHub Actions deploy workflow because the repo already has a Vercel project with GitHub metadata and GitHub repository secrets are empty
+- Confirmed the safest merge path was a fast-forward from `003-landing-acquisition-flow` into `main`; no divergent `main`-only commits were left outside branch `003`
+- Ran the repo finish gate before merge: root `typecheck`, `test`, and `build` all passed cleanly
+- Prepared `main` to be the production branch deployment target and feature branches to remain preview candidates under the same Vercel project contract
