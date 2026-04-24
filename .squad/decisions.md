@@ -704,3 +704,28 @@ A branch can carry local files that are still untracked there but already tracke
 - Current user work stays intact.
 - Future review can focus on meaningful untracked files instead of local build/install noise.
 - `stash@{0}` remains untouched as fallback checkpoint until Sergio is satisfied the branch state no longer needs it.
+
+---
+
+## Ripley Decision — Vercel deploy path + merge to main
+
+**Status:** Approved  
+**Date:** 2026-04-24  
+**Author:** Ripley
+
+### Context
+Sergio asked for the repo to deploy on pushes: preview deployments from branch pushes and production from `main`, then to merge current `003-landing-acquisition-flow` into `main` and push it.
+
+### Decision
+Use **native Vercel Git integration** as the canonical deployment mechanism for this repository.
+
+### Why
+- A Vercel project named `batalla-ias` already exists for this repo/account.
+- Existing Vercel deployments already carry GitHub repo/ref metadata for `svg153/batalla-ias`, which indicates repo linkage is already present server-side.
+- The repo has **no GitHub Actions secrets** configured for a token-based Vercel workflow, so adding a GitHub Action now would create a broken or duplicated deploy path.
+- Vercel's built-in Git flow is the simplest correct contract: non-production branches create preview deployments; the production branch (`main`) creates production deployments.
+
+### Consequence
+- Do **not** add a redundant deploy workflow to `.github/workflows/` unless native Git integration proves unavailable.
+- Validation gate stays repo-native (`typecheck`, `test`, `build`) and deployment remains Vercel-managed.
+- Merge `003-landing-acquisition-flow` into `main` only after green validation, then push `main` and verify Vercel receives the production deployment.
